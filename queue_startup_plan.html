@@ -1,0 +1,189 @@
+
+<style>
+  * { box-sizing: border-box; }
+  .root { padding: 1rem 0; font-size: 14px; }
+  .header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 8px; }
+  .header h2 { font-size: 18px; font-weight: 500; margin: 0; color: var(--color-text-primary); }
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--color-text-secondary); }
+  .leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .timeline { display: grid; grid-template-columns: 90px repeat(6, 1fr); gap: 4px; align-items: start; }
+  .wk-head { text-align: center; font-size: 11px; font-weight: 500; color: var(--color-text-secondary); padding: 4px 2px 8px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .row-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); padding: 6px 6px 0 0; padding-top: 10px; line-height: 1.3; }
+  .cell { padding: 2px; min-height: 38px; }
+  .bar {
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.35;
+    cursor: pointer;
+    transition: opacity .15s;
+    border: 0.5px solid transparent;
+    position: relative;
+  }
+  .bar:hover { opacity: .82; }
+  .bar.product  { background: #EEEDFE; color: #3C3489; border-color: #AFA9EC; }
+  .bar.tech     { background: #E1F5EE; color: #085041; border-color: #5DCAA5; }
+  .bar.growth   { background: #FAEEDA; color: #633806; border-color: #EF9F27; }
+  .bar.ops      { background: #FAECE7; color: #4A1B0C; border-color: #F0997B; }
+  .bar.critical { outline: 2px solid #E24B4A; outline-offset: 1px; }
+  @media (prefers-color-scheme: dark) {
+    .bar.product  { background: #3C3489; color: #CECBF6; border-color: #7F77DD; }
+    .bar.tech     { background: #085041; color: #9FE1CB; border-color: #1D9E75; }
+    .bar.growth   { background: #633806; color: #FAC775; border-color: #BA7517; }
+    .bar.ops      { background: #4A1B0C; color: #F5C4B3; border-color: #D85A30; }
+  }
+  .span2 { grid-column: span 2; }
+  .span3 { grid-column: span 3; }
+  .span4 { grid-column: span 4; }
+  .span6 { grid-column: span 6; }
+  .divider { grid-column: 1 / -1; height: 0.5px; background: var(--color-border-tertiary); margin: 4px 0; }
+  .milestone-row { grid-column: 1 / -1; display: flex; gap: 8px; padding: 8px 0 4px; flex-wrap: wrap; }
+  .ms { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--color-text-secondary); }
+  .ms-flag { font-size: 14px; }
+  .detail-panel {
+    margin-top: 1.25rem;
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-lg);
+    border: 0.5px solid var(--color-border-tertiary);
+    padding: 1rem 1.25rem;
+    min-height: 60px;
+  }
+  .detail-panel h3 { font-size: 14px; font-weight: 500; margin: 0 0 6px; color: var(--color-text-primary); }
+  .detail-panel p  { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.6; }
+  .tag { display: inline-block; font-size: 10px; font-weight: 500; padding: 1px 6px; border-radius: 10px; margin-left: 6px; vertical-align: middle; }
+  .tag.fire { background: #FCEBEB; color: #A32D2D; }
+  @media (prefers-color-scheme: dark) { .tag.fire { background: #501313; color: #F7C1C1; } }
+</style>
+
+<div class="root">
+  <div class="header">
+    <h2>6-week launch roadmap — queue management MVP</h2>
+    <div class="legend">
+      <span class="leg"><span class="leg-dot" style="background:#7F77DD"></span>Product</span>
+      <span class="leg"><span class="leg-dot" style="background:#1D9E75"></span>Engineering</span>
+      <span class="leg"><span class="leg-dot" style="background:#BA7517"></span>Growth</span>
+      <span class="leg"><span class="leg-dot" style="background:#D85A30"></span>Ops</span>
+    </div>
+  </div>
+
+  <div class="timeline" id="timeline">
+    <!-- Header row -->
+    <div></div>
+    <div class="wk-head">Wk 1<br><span style="font-weight:400;font-size:10px">Validate</span></div>
+    <div class="wk-head">Wk 2<br><span style="font-weight:400;font-size:10px">Build core</span></div>
+    <div class="wk-head">Wk 3<br><span style="font-weight:400;font-size:10px">Build core</span></div>
+    <div class="wk-head">Wk 4<br><span style="font-weight:400;font-size:10px">Integrate</span></div>
+    <div class="wk-head">Wk 5<br><span style="font-weight:400;font-size:10px">Pilot</span></div>
+    <div class="wk-head">Wk 6<br><span style="font-weight:400;font-size:10px">Launch</span></div>
+
+    <!-- PRODUCT -->
+    <div class="row-label">Product</div>
+    <div class="cell">
+      <div class="bar product" onclick="show('Finalise MVP scope','Lock the feature list ruthlessly. Define the 3 core user flows: join queue, manage queue, view analytics. Kill anything outside these. Run 3–5 customer interviews with target businesses (clinics, retail, govt offices). Decide: kiosk-first or app-first.')">
+        Scope lock + 3 interviews
+      </div>
+    </div>
+    <div class="cell span2">
+      <div class="bar product" onclick="show('User flow design','Wire up all 3 flows in Figma or a low-fi tool. Physical: kiosk check-in → queue board → SMS/app notification. Digital: web link → join → real-time position update. Keep it to screens you can actually build in 2 weeks.')">
+        UX flows — physical &amp; digital
+      </div>
+    </div>
+    <div class="cell span2">
+      <div class="bar product" onclick="show('Pilot onboarding design','Design the onboarding for your first 2–3 pilot businesses. Think: how does a manager set up their queue in under 10 min? What does their staff dashboard look like?')">
+        Pilot onboarding flow
+      </div>
+    </div>
+    <div class="cell">
+      <div class="bar product" onclick="show('Post-launch iteration','First week of real user feedback. Triage bugs vs feature requests. Set weekly sprint rhythm for what comes after launch.')">
+        Feedback triage
+      </div>
+    </div>
+
+    <!-- ENGINEERING -->
+    <div class="row-label" style="padding-top:6px">Engineering</div>
+    <div class="cell">
+      <div class="bar tech" onclick="show('Tech stack decision','Nail your stack fast. Recommended: Next.js + Supabase (realtime built-in) + Twilio for SMS. Or Firebase if your team knows it. Pick what your 2–3 devs can move fastest in. Set up repo, CI/CD, and staging env this week.')">
+        Stack &amp; infra setup
+      </div>
+    </div>
+    <div class="cell span2">
+      <div class="bar tech critical" onclick="show('Core queue engine (CRITICAL)','This is your moat. Build: queue creation, position tracking, real-time updates (WebSockets/SSE), SMS/push notification triggers, basic admin dashboard for businesses. No fancy UI yet — focus on reliability. A queue that drops positions or fires duplicate SMS is fatal.')">
+        Core queue engine <span class="tag fire">🔥 critical</span>
+      </div>
+    </div>
+    <div class="cell">
+      <div class="bar tech" onclick="show('Physical integration','Build the kiosk interface (tablet-friendly web app or PWA). QR code generation for digital queue joining. Print ticket capability. Test on actual hardware — iPad or cheap Android tablet.')">
+        Physical kiosk layer
+      </div>
+    </div>
+    <div class="cell">
+      <div class="bar tech" onclick="show('Hardening &amp; pilot bugs','Fix everything that breaks in the pilot. Focus on: notification reliability, real-time sync across devices, load handling for concurrent queues. Add basic analytics (avg wait time, queue length over time).')">
+        Bug fixes + analytics
+      </div>
+    </div>
+    <div class="cell">
+      <div class="bar tech" onclick="show('Launch infra','Move to production. Set up monitoring (Sentry/Datadog lite). Make sure you can handle 10x your pilot load. Enable payments if charging from day 1.')">
+        Prod deploy + monitoring
+      </div>
+    </div>
+
+    <!-- GROWTH -->
+    <div class="row-label" style="padding-top:6px">Growth</div>
+    <div class="cell span2">
+      <div class="bar growth" onclick="show('Identify 3 pilot partners','Find 2–3 businesses willing to run a free pilot in weeks 5–6. Target: small clinics, pharmacies, government service points, or busy retail. Offer white-glove setup and their logo on your case study.')">
+        Recruit 3 pilot businesses
+      </div>
+    </div>
+    <div class="cell span2">
+      <div class="bar growth" onclick="show('Build sales material','One-pager, demo video (Loom is fine), and a simple pricing page. Keep pricing simple: per-location/month. Have a free trial tier to reduce friction. Build a basic landing page.')">
+        Landing page + pricing
+      </div>
+    </div>
+    <div class="cell span2">
+      <div class="bar growth" onclick="show('Launch outreach','Pilot businesses go live. Start warm outreach to 20–30 more prospects using pilot results. Post on LinkedIn, local business groups, and Product Hunt if ready. Collect testimonials immediately.')">
+        Pilot live + outreach
+      </div>
+    </div>
+
+    <!-- OPS -->
+    <div class="row-label" style="padding-top:6px">Ops / Infra</div>
+    <div class="cell">
+      <div class="bar ops" onclick="show('Legal &amp; billing basics','Set up a basic MSA or terms of service. Stripe integration for billing (even if free for now). Basic privacy policy — especially important if you handle end-user phone numbers. Register business entity if not done.')">
+        Legal + Stripe setup
+      </div>
+    </div>
+    <div class="cell span3">
+      <div class="bar ops" onclick="show('Support process','Build a simple support flow: shared inbox (Missive/Front), a 1-page runbook for common issues. You are the support team — make it fast. Set up a status page (statuspage.io free tier).')">
+        Support process + status page
+      </div>
+    </div>
+    <div class="cell span2">
+      <div class="bar ops" onclick="show('Metrics &amp; reporting','Set up a simple founder dashboard: active queues, daily served, churn signals, NPS from pilot. Weekly 30-min team sync to review numbers.')">
+        Metrics dashboard
+      </div>
+    </div>
+
+    <!-- Milestones -->
+    <div class="divider"></div>
+    <div class="milestone-row">
+      <span class="ms"><span class="ms-flag">🏁</span><b>Wk 1:</b>&nbsp;Scope locked, stack chosen</span>
+      <span class="ms"><span class="ms-flag">⚙️</span><b>Wk 3:</b>&nbsp;Queue engine working end-to-end</span>
+      <span class="ms"><span class="ms-flag">🧪</span><b>Wk 5:</b>&nbsp;2–3 live pilot businesses</span>
+      <span class="ms"><span class="ms-flag">🚀</span><b>Wk 6:</b>&nbsp;Public launch</span>
+    </div>
+  </div>
+
+  <div class="detail-panel" id="detail">
+    <h3>Click any task to see details</h3>
+    <p>Tap a bar above to drill into what needs to happen, decisions to make, and watch-outs.</p>
+  </div>
+</div>
+
+<script>
+function show(title, body) {
+  document.getElementById('detail').innerHTML =
+    '<h3>' + title + '</h3><p>' + body + '</p>';
+}
+</script>
